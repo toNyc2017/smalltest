@@ -1,0 +1,7 @@
+# Use the official NGINX image from Docker Hub
+
+FROM nginx:latest
+COPY index.html /usr/share/nginx/html/index.html
+
+
+EXPOSE 80
