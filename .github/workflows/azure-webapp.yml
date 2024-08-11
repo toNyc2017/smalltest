@@ -30,11 +30,11 @@ jobs:
       - name: 'Build and push Docker image'
         run: |
           IMAGE_TAG="nginx-helloworld:$(date +%Y%m%d%H%M%S)"
-          docker buildx build --platform linux/amd64 --no-cache -t yorkvilleregistry.azurecr.io/IMAGE_TAG -f Dockerfile_fastapi . --load
-          docker push yorkvilleregistry.azurecr.io/IMAGE_TAG
+          docker buildx build --platform linux/amd64 --no-cache -t yorkvilleregistry.azurecr.io/$IMAGE_TAG -f Dockerfile_fastapi . --load
+          docker push yorkvilleregistry.azurecr.io/$IMAGE_TAG
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'YorkvilleCharlie'
-          images: 'yorkvilleregistry.azurecr.io/IMAGE_TAG'
+          images: 'yorkvilleregistry.azurecr.io/$IMAGE_TAG'
