@@ -1,9 +1,17 @@
-# Use the official NGINX image from Docker Hub
-FROM nginx:latest
+# Use an official Python runtime as a parent image
+FROM python:3.8
 
-# Copy the HTML file to the NGINX web root
-COPY index.html /usr/share/nginx/html/index.html
+# Set the working directory in the container
+WORKDIR /app
 
-# Expose port 80 to the outside world
+# Copy the current directory contents into the container at /app
+COPY . /app
+
+# Install FastAPI and Uvicorn
+RUN pip install fastapi uvicorn
+
+# Make port 80 available to the world outside this container
 EXPOSE 80
 
+# Run the FastAPI server
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]
