@@ -25,7 +25,7 @@ jobs:
 
       - name: 'Login to Azure Container Registry'
         run: |
-          echo "79bUqSVf/tpgqQzykcbp+mdgEwEcB4jUxTT2loiTgk+ACRCcxQLu" | docker login yorkvilleregistry.azurecr.io -u yorkvilleregistry --password-stdin
+          echo "GhcOYAY8Upxcv2m1YJMOki8vaA7WdF01Sgh+EWj1hY+ACRDDub0R" | docker login yorkvilleregistry.azurecr.io -u yorkvilleregistry --password-stdin
 
       - name: 'Build and push Docker image'
         run: |
