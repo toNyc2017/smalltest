@@ -8,7 +8,14 @@ WORKDIR /app
 COPY . /app
 
 # Install FastAPI and Uvicorn
-RUN pip install fastapi uvicorn
+#RUN pip install fastapi uvicorn
+
+
+# Install dependencies from requirements.txt
+COPY requirements.txt /app/
+RUN pip install -r requirements.txt
+
+
 
 # Make port 80 available to the world outside this container
 EXPOSE 80
