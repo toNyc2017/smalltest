@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+ from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 
 app = FastAPI()
@@ -26,7 +26,7 @@ def read_root():
             </style>
         </head>
         <body>
-            <h1>Hello, World! Again. 6:30 pm</h1>
+            <h1>Hello, World! Again. Wed 12:50 pm</h1>
         </body>
     </html>
     """
