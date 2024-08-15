@@ -8,7 +8,7 @@ def read_root():
     return """
     <html>
         <head>
-            <title>Hello World. Again!! 6 pm</title>
+            <title>Testing Azure WebAPP functionality</title>
             <style>
                 body {
                     display: flex;
@@ -26,7 +26,7 @@ def read_root():
             </style>
         </head>
         <body>
-            <h1>Hello, World! Again. Wed 11:25 pm</h1>
+            <h1>Hello, World! Again. Thus 7:00 am</h1>
         </body>
     </html>
     """
