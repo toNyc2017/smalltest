@@ -29,7 +29,7 @@ import PyPDF2
 
 app = FastAPI()
 
-
+openai.api_key = os.getenv('OPENAI_API_KEY')
 account_key = os.getenv('AZURE_STORAGE_ACCOUNT_KEY')
 
 # client = openai.OpenAI(
