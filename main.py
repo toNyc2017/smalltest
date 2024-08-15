@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
+import logging
 
 import faiss
 import numpy as np
@@ -26,6 +27,10 @@ import requests
 
 #from BlogExamples import blog_examples, recent_example, stamos_example, disney_example, long_form_examples, sector_example
 import PyPDF2
+
+
+logging.basicConfig(level=logging.DEBUG)
+
 
 app = FastAPI()
 
@@ -96,16 +101,31 @@ blob_service_client = BlobServiceClient.from_connection_string(connection_string
 container_name = "uploaded-files"
 
 
+@app.get("/api/test")
+async def test_endpoint():
+    return {"message": "Hello from your FastAPI app!"}
 
 
 @app.get("/api/vector-databases")
 #@app.get("/vector-databases")
 async def list_vector_databases():
     print("Databases being requested")
-    blob_list = blob_service_client.get_container_client(container_name).list_blobs()
-    databases = [blob.name for blob in blob_list if blob.name.endswith("_index")]
-    print("Databases found:", databases)
-    return databases
+
+
+    logging.debug("Databases being requested")
+    try:
+        blob_list = blob_service_client.get_container_client(container_name).list_blobs()
+        databases = [blob.name for blob in blob_list if blob.name.endswith("_index")]
+        logging.debug(f"Databases found: {databases}")
+        return databases
+    except Exception as e:
+        logging.error(f"Error occurred: {str(e)}")
+        raise HTTPException(status_code=500, detail="Internal Server Error")
+    
+    # blob_list = blob_service_client.get_container_client(container_name).list_blobs()
+    # databases = [blob.name for blob in blob_list if blob.name.endswith("_index")]
+    # print("Databases found:", databases)
+    # return databases
 
 
 
