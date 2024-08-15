@@ -10,10 +10,12 @@ COPY . /app
 
 # Define a build-time argument
 ARG AZURE_STORAGE_ACCOUNT_KEY
+ARG OPENAI_API__KEY
 
 # Set the environment variable using the build-time argument
 ENV AZURE_STORAGE_ACCOUNT_KEY=${AZURE_STORAGE_ACCOUNT_KEY}
 
+ENV OPENAI_API_KEY=${AZURE_STORAGE_ACCOUNT_KEY}
 
 
 # Install FastAPI and Uvicorn
