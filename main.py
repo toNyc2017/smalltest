@@ -96,7 +96,25 @@ connection_string = f"DefaultEndpointsProtocol=https;AccountName={account_name};
 
 # Create a BlobServiceClient
 print("Creating BlobServiceClient...")
-blob_service_client = BlobServiceClient.from_connection_string(connection_string)
+#blob_service_client = BlobServiceClient.from_connection_string(connection_string)
+
+
+try:
+    # Initialize the BlobServiceClient
+    blob_service_client = BlobServiceClient.from_connection_string(connection_string)
+except Exception as e:
+    blob_service_client = None
+    error_message = str(e)
+
+@app.get("/api/check-blob-service")
+async def check_blob_service():
+    if blob_service_client:
+        return JSONResponse(content={"status": "success", "message": "BlobServiceClient is initialized successfully."})
+    else:
+        return JSONResponse(content={"status": "error", "message": f"BlobServiceClient initialization failed: {error_message}"})
+
+
+
 
 container_name = "uploaded-files"
 
