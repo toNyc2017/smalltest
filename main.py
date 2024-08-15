@@ -29,6 +29,96 @@ import PyPDF2
 
 app = FastAPI()
 
+
+#openai.api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = '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'
+
+#account_key = os.getenv("AZURE_STORAGE_ACCOUNT_KEY")
+
+account_key = 'zmqOkCX2zsNeVktkutoi6w1l15jh09MQF3YclqwJaMu9vUsD9q45vWJ2OPyrwGXww4TkZOsfWE0u+AStIlrgGQ=='
+
+
+client = openai.OpenAI(
+    api_key=oopenai.api_key,
+)
+
+app = FastAPI()
+
+# Configure CORS
+origins = [
+    "http://localhost:3000",  # React dev server
+    "https://askyorkville-c3ckc8hgh4hzajeu.eastus-01.azurewebsites.net"  # For HTTPS
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    #allow_origins=origins,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+print('GOT CORS CONFIGURED SUCCESSFULLY')
+
+
+chunks_storage = {}  # {index: chunk_text}
+
+#promptTemplates = ["Ad Hoc Query", "Tear Sheet", "Long Form", "SuperLong", "One Page Current Events"]
+
+
+
+def get_chunk_by_index(idx):
+    return chunks_storage.get(idx, "")
+
+@app.exception_handler(413)
+async def request_entity_too_large_handler(request: Request, exc: Exception):
+    return JSONResponse(
+        status_code=413,
+        content={"message": "Payload too large"},
+    )
+
+# Increase the maximum payload size
+from fastapi.middleware.trustedhost import TrustedHostMiddleware
+app.add_middleware(
+    TrustedHostMiddleware,
+    allowed_hosts=["*"],
+)
+
+# Initialize Faiss index
+d = 1536  # Dimension of the embeddings
+index = faiss.IndexFlatL2(d)
+
+# Initialize Azure Blob Storage
+account_name = "yorkvilleworks9016610742"
+
+# Form the connection string
+connection_string = f"DefaultEndpointsProtocol=https;AccountName={account_name};AccountKey={account_key};EndpointSuffix=core.windows.net"
+
+# Create a BlobServiceClient
+print("Creating BlobServiceClient...")
+blob_service_client = BlobServiceClient.from_connection_string(connection_string)
+
+container_name = "uploaded-files"
+
+
+
+
+@app.get("/api/vector-databases")
+#@app.get("/vector-databases")
+async def list_vector_databases():
+    print("Databases being requested")
+    blob_list = blob_service_client.get_container_client(container_name).list_blobs()
+    databases = [blob.name for blob in blob_list if blob.name.endswith("_index")]
+    print("Databases found:", databases)
+    return databases
+
+
+
+
+
+
+
 @app.get("/", response_class=HTMLResponse)
 def read_root():
     return """
@@ -52,7 +142,7 @@ def read_root():
             </style>
         </head>
         <body>
-            <h1>Hello, World! Again. Thus 9:00 am incr2 branch</h1>
+            <h1>Hello, World! Again. Thus 9:30 am incr2 branch</h1>
         </body>
     </html>
     """
