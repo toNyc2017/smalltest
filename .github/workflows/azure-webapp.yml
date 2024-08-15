@@ -3,7 +3,7 @@ name: Build and Deploy FastAPI App to Azure Web App
 on:
   push:
     branches:
-      - incr2  # Trigger on the main branch
+      - main  # Trigger on the main branch
 
 jobs:
   build-and-deploy:
