@@ -10,6 +10,8 @@ COPY . /app
 # Install FastAPI and Uvicorn
 RUN pip install fastapi uvicorn
 
+RUN pip install --no-cache-dir -r /app/requirements.txt
+
 # Make port 80 available to the world outside this container
 EXPOSE 80
 
