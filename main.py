@@ -102,6 +102,7 @@ print("Creating BlobServiceClient...")
 try:
     # Initialize the BlobServiceClient
     blob_service_client = BlobServiceClient.from_connection_string(connection_string)
+   
 except Exception as e:
     blob_service_client = None
     error_message = str(e)
@@ -135,7 +136,9 @@ async def list_vector_databases():
         blob_list = blob_service_client.get_container_client(container_name).list_blobs()
         databases = [blob.name for blob in blob_list if blob.name.endswith("_index")]
         logging.debug(f"Databases found: {databases}")
-        return databases
+        #return databases
+        return {"message": "got databases but can't return them"}
+
     except Exception as e:
         logging.error(f"Error occurred: {str(e)}")
         raise HTTPException(status_code=500, detail="Internal Server Error")
