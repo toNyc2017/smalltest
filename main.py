@@ -49,6 +49,22 @@ app = FastAPI()
 
 openai.api_key = os.getenv('OPENAI_API_KEY')
 account_key = os.getenv('AZURE_STORAGE_ACCOUNT_KEY')
+account_name = "yorkvilleworks9016610742"
+
+# Form the connection string
+connection_string = f"DefaultEndpointsProtocol=https;AccountName={account_name};AccountKey={account_key};EndpointSuffix=core.windows.net"
+
+# Create a BlobServiceClient
+print("Creating BlobServiceClient...")
+#blob_service_client = BlobServiceClient.from_connection_string(connection_string)
+
+blob_service_client = BlobServiceClient.from_connection_string(connection_string)
+
+container_name = "uploaded-files"
+
+container_client = blob_service_client.get_container_client(container_name)
+
+blobs_in_container = list_all_blobs_in_container(container_client)
 
 # client = openai.OpenAI(
 #     api_key=oopenai.api_key,
