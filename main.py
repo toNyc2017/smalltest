@@ -106,6 +106,7 @@ try:
     # Initialize the BlobServiceClient
     
     blob_list = blob_service_client.get_container_client(container_name).list_blobs()
+    databases = [blob.name for blob in blob_list if blob.name.endswith("_index")]
    
 except Exception as e:
     blob_list = None
@@ -114,9 +115,9 @@ except Exception as e:
 @app.get("/api/check-blob-service")
 async def check_blob_service():
     #if blob_service_client:
-    if blob_list:
+    if databases:
         #return JSONResponse(content={"status": "success", "message": "BlobServiceClient is initialized successfully."})
-        return {"message": f"Length of blob_list is: {len(blob_list)}"}
+        return {"message": f"Length of databases is: {len(databases}"}
         #return blob_list
     else:
         return JSONResponse(content={"status": "error", "message": f"BlobServiceClient initialization failed: {error_message}"})
@@ -184,7 +185,7 @@ def read_root():
             </style>
         </head>
         <body>
-            <h1>Hello, World! Again. Thus 9:30 pm incr2 branch</h1>
+            <h1>Hello, World! Again. Thus 9:50 pm incr2 branch</h1>
         </body>
     </html>
     """
