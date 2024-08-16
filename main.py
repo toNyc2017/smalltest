@@ -99,6 +99,9 @@ print("Creating BlobServiceClient...")
 #blob_service_client = BlobServiceClient.from_connection_string(connection_string)
 
 blob_service_client = BlobServiceClient.from_connection_string(connection_string)
+
+container_name = "uploaded-files"
+
 try:
     # Initialize the BlobServiceClient
     
@@ -119,7 +122,7 @@ async def check_blob_service():
 
 
 
-container_name = "uploaded-files"
+
 
 
 @app.get("/api/test")
@@ -179,7 +182,7 @@ def read_root():
             </style>
         </head>
         <body>
-            <h1>Hello, World! Again. Thus 9:30 am incr2 branch</h1>
+            <h1>Hello, World! Again. Thus 8:07 am incr2 branch</h1>
         </body>
     </html>
     """
