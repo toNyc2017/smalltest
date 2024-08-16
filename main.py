@@ -29,6 +29,19 @@ import requests
 import PyPDF2
 
 
+def list_all_blobs_in_container(container_client):
+    print(f"Listing all blobs in the container: {container_client.container_name}")
+    blobs = container_client.list_blobs()
+    all_blobs = []
+    for blob in blobs:
+        print(f"Found blob: {blob.name}")
+        all_blobs.append(blob.name)
+    
+    pdb.set_trace()
+    return all_blobs
+
+
+
 logging.basicConfig(level=logging.DEBUG)
 
 
@@ -102,10 +115,20 @@ blob_service_client = BlobServiceClient.from_connection_string(connection_string
 
 container_name = "uploaded-files"
 
+container_client = blob_service_client.get_container_client(container_name)
+
+blobs_in_container = list_all_blobs_in_container(container_client)
+
+
+
 try:
     # Initialize the BlobServiceClient
     
     blob_list = blob_service_client.get_container_client(container_name).list_blobs()
+    container_client = blob_service_client.get_container_client(container_name)
+
+    blobs_in_container = list_all_blobs_in_container(container_client)
+
     #databases = [blob.name for blob in blob_list if blob.name.endswith("_index")]
    
 except Exception as e:
@@ -133,9 +156,10 @@ async def get_azure_sdk_versions():
 
 @app.get("/api/check-blob-service")
 async def check_blob_service():
-    if blob_list:
-        blob_info = [{"name": blob.name, "size": blob.size} for blob in blob_list][:10]
-        return {"message": "we do seem to have blob_list", "blob_info": blob_info}
+    #if blob_list:
+    if blobs_in_container:
+        blob_info = [{"name": blob.name, "size": blob.size} for blob in blobs_in_container][:10]
+        return {"message": "we do seem to have blobs_in_container", "blob_info": blob_info}
     else:
         return {"status": "error", "message": f"BlobServiceClient initialization failed: {error_message}"}
 
@@ -180,6 +204,8 @@ async def list_vector_databases():
 
 @app.get("/", response_class=HTMLResponse)
 def read_root():
+    
+    current_time = datetime.now().strftime("%A %I:%M %p")
     return """
     <html>
         <head>
@@ -200,8 +226,8 @@ def read_root():
                 }
             </style>
         </head>
-        <body>
-            <h1>Hello, World! Again. Fri 11:15 am incr2 branch</h1>
+      <body>
+            <h1>Hello, World! from branch incr2. Today is {current_time}</h1>
         </body>
     </html>
     """
