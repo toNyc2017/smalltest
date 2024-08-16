@@ -106,18 +106,27 @@ try:
     # Initialize the BlobServiceClient
     
     blob_list = blob_service_client.get_container_client(container_name).list_blobs()
-    databases = [blob.name for blob in blob_list if blob.name.endswith("_index")]
+    #databases = [blob.name for blob in blob_list if blob.name.endswith("_index")]
    
 except Exception as e:
     blob_list = None
     error_message = str(e)
 
+
+
+@app.get("/api/azure-sdk-versions")
+async def get_azure_sdk_versions():
+    azure_packages = [p for p in pkg_resources.working_set if 'azure' in p.project_name]
+    versions = {p.project_name: p.version for p in azure_packages}
+    return versions
+
+
 @app.get("/api/check-blob-service")
 async def check_blob_service():
     #if blob_service_client:
-    if databases:
+    if blob_list:
         #return JSONResponse(content={"status": "success", "message": "BlobServiceClient is initialized successfully."})
-        return {"message": "we do seem to have databases"}
+        return {"message": "we do seem to have blob_list"}
         #return blob_list
     else:
         return JSONResponse(content={"status": "error", "message": f"BlobServiceClient initialization failed: {error_message}"})
@@ -185,7 +194,7 @@ def read_root():
             </style>
         </head>
         <body>
-            <h1>Hello, World! Again. Thus 10:20 pm incr2 branch</h1>
+            <h1>Hello, World! Again. Fri 9:45 am incr2 branch</h1>
         </body>
     </html>
     """
