@@ -115,7 +115,8 @@ except Exception as e:
 async def check_blob_service():
     #if blob_service_client:
     if blob_list:
-        return JSONResponse(content={"status": "success", "message": "BlobServiceClient is initialized successfully."})
+        #return JSONResponse(content={"status": "success", "message": "BlobServiceClient is initialized successfully."})
+        return blob_list
     else:
         return JSONResponse(content={"status": "error", "message": f"BlobServiceClient initialization failed: {error_message}"})
 
@@ -182,7 +183,7 @@ def read_root():
             </style>
         </head>
         <body>
-            <h1>Hello, World! Again. Thus 8:07 am incr2 branch</h1>
+            <h1>Hello, World! Again. Thus 9:10 pm incr2 branch</h1>
         </body>
     </html>
     """
