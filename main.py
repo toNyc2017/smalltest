@@ -116,7 +116,8 @@ async def check_blob_service():
     #if blob_service_client:
     if blob_list:
         #return JSONResponse(content={"status": "success", "message": "BlobServiceClient is initialized successfully."})
-        return blob_list
+        return {"message": f"Length of blob_list is: {len(blob_list)}"}
+        #return blob_list
     else:
         return JSONResponse(content={"status": "error", "message": f"BlobServiceClient initialization failed: {error_message}"})
 
@@ -183,7 +184,7 @@ def read_root():
             </style>
         </head>
         <body>
-            <h1>Hello, World! Again. Thus 9:10 pm incr2 branch</h1>
+            <h1>Hello, World! Again. Thus 9:30 pm incr2 branch</h1>
         </body>
     </html>
     """
