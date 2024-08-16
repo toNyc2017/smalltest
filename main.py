@@ -121,16 +121,23 @@ async def get_azure_sdk_versions():
     return versions
 
 
+# @app.get("/api/check-blob-service")
+# async def check_blob_service():
+#     #if blob_service_client:
+#     if blob_list:
+#         #return JSONResponse(content={"status": "success", "message": "BlobServiceClient is initialized successfully."})
+#         return {"message": "we do seem to have blob_list"}
+#         #return blob_list
+#     else:
+#         return JSONResponse(content={"status": "error", "message": f"BlobServiceClient initialization failed: {error_message}"})
+
 @app.get("/api/check-blob-service")
 async def check_blob_service():
-    #if blob_service_client:
     if blob_list:
-        #return JSONResponse(content={"status": "success", "message": "BlobServiceClient is initialized successfully."})
-        return {"message": "we do seem to have blob_list"}
-        #return blob_list
+        blob_info = [{"name": blob.name, "size": blob.size} for blob in blob_list][:10]
+        return {"message": "we do seem to have blob_list", "blob_info": blob_info}
     else:
-        return JSONResponse(content={"status": "error", "message": f"BlobServiceClient initialization failed: {error_message}"})
-
+        return {"status": "error", "message": f"BlobServiceClient initialization failed: {error_message}"}
 
 
 
@@ -194,7 +201,7 @@ def read_root():
             </style>
         </head>
         <body>
-            <h1>Hello, World! Again. Fri 9:45 am incr2 branch</h1>
+            <h1>Hello, World! Again. Fri 11:15 am incr2 branch</h1>
         </body>
     </html>
     """
