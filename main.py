@@ -117,7 +117,7 @@ async def check_blob_service():
     #if blob_service_client:
     if databases:
         #return JSONResponse(content={"status": "success", "message": "BlobServiceClient is initialized successfully."})
-        return {"message": f"Length of databases is: {len(databases}"}
+        return {"message": f"Length of databases is: {len(databases)}"}
         #return blob_list
     else:
         return JSONResponse(content={"status": "error", "message": f"BlobServiceClient initialization failed: {error_message}"})
