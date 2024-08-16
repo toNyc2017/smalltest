@@ -98,18 +98,20 @@ connection_string = f"DefaultEndpointsProtocol=https;AccountName={account_name};
 print("Creating BlobServiceClient...")
 #blob_service_client = BlobServiceClient.from_connection_string(connection_string)
 
-
+blob_service_client = BlobServiceClient.from_connection_string(connection_string)
 try:
     # Initialize the BlobServiceClient
-    blob_service_client = BlobServiceClient.from_connection_string(connection_string)
+    
+    blob_list = blob_service_client.get_container_client(container_name).list_blobs()
    
 except Exception as e:
-    blob_service_client = None
+    blob_list = None
     error_message = str(e)
 
 @app.get("/api/check-blob-service")
 async def check_blob_service():
-    if blob_service_client:
+    #if blob_service_client:
+    if blob_list:
         return JSONResponse(content={"status": "success", "message": "BlobServiceClient is initialized successfully."})
     else:
         return JSONResponse(content={"status": "error", "message": f"BlobServiceClient initialization failed: {error_message}"})
@@ -134,10 +136,10 @@ async def list_vector_databases():
     logging.debug("Databases being requested")
     try:
         blob_list = blob_service_client.get_container_client(container_name).list_blobs()
-        databases = [blob.name for blob in blob_list if blob.name.endswith("_index")]
-        logging.debug(f"Databases found: {databases}")
-        #return databases
-        return {"message": "got databases but can't return them"}
+        #databases = [blob.name for blob in blob_list if blob.name.endswith("_index")]
+        #logging.debug(f"Databases found: {databases}")
+        return blob_list
+        #return {"message": "got databases but can't return them"}
 
     except Exception as e:
         logging.error(f"Error occurred: {str(e)}")
