@@ -4,6 +4,11 @@ import hashlib
 # Retrieve the environment variable
 secret_value = os.getenv('AZURE_STORAGE_ACCOUNT_PASSWORD')
 
+dummy_stinrg = "does this work?"
+
+print(dummy_string)
+
+
 if secret_value:
     # Perform an operation using the secret
     hashed_value = hashlib.sha256(secret_value.encode()).hexdigest()
