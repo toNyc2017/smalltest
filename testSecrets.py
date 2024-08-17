@@ -2,7 +2,7 @@ import os
 import hashlib
 
 # Retrieve the environment variable
-secret_value = os.getenv('AZURE_STORAGE_ACCOUNT_PASSWORD')
+secret_value = os.getenv('AZURE_STORAGE_ACCOUNT_KEY')
 
 dummy_string = "does this work?"
 
