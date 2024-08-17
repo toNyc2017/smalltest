@@ -4,16 +4,16 @@ from azure.storage.blob import BlobServiceClient
 
 
 # Retrieve the environment variable
-secret_value = os.getenv('AZURE_STORAGE_ACCOUNT_KEY')
+account_key = os.getenv('AZURE_STORAGE_ACCOUNT_KEY')
 
 dummy_string = "does this work?"
 
 print(dummy_string)
 
 
-if secret_value:
+if account_key:
     # Perform an operation using the secret
-    hashed_value = hashlib.sha256(secret_value.encode()).hexdigest()
+    hashed_value = hashlib.sha256(account_key.encode()).hexdigest()
     print(f"Secret is set and its hash is: {hashed_value}")
 else:
     print("Secret is not set.")
