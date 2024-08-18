@@ -1,0 +1,59 @@
+
+name: Build and Deploy FastAPI App to Azure Web App
+
+on:
+  push:
+    branches:
+      - incr2  # Trigger on the incr2 branch
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 'Checkout GitHub Action'
+        uses: actions/checkout@v2
+
+      - name: 'Login to Azure'
+        uses: azure/login@v1
+        with:
+          creds: '{"clientId":"d628f8fa-ac3e-4a7a-a7e8-bc386cb884d4","clientSecret":"AJf8Q~P0vKPxFBv6FqBjT6dLwojUnAkcjLNasbwg","subscriptionId":"5cb9d786-4789-4403-9c63-44493daf4bbd","tenantId":"8d7d67b6-2968-4815-9c54-4906afe68b5c"}'
+
+
+      - name: 'Set up Python'
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+
+      - name: 'Install dependencies'
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: 'Configure Azure App Service Settings'
+        uses: azure/appservice-settings@v1
+        with:
+          app-name: 'YorkvilleCharlie'
+          app-settings-json: |
+            [
+              {
+                "name": "OPENAI_API_KEY",
+                "value": "${{ secrets.OPENAI_API_KEY }}",
+                "slotSetting": false
+              },
+              {
+                "name": "AZURE_STORAGE_ACCOUNT_KEY",
+                "value": "${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }}",
+                "slotSetting": false
+              }
+            ]
+          startup-command: 'python main.py'
+
+
+          
+      - name: 'Deploy to Azure Web App'
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'YorkvilleCharlie'
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: .
