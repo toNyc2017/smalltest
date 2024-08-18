@@ -145,7 +145,7 @@ try:
 
     blobs_in_container = list_all_blobs_in_container(container_client)
 
-    #databases = [blob.name for blob in blob_list if blob.name.endswith("_index")]
+    databases = [blob.name for blob in blob_list if blob.name.endswith("_index")]
    
 except Exception as e:
     blob_list = None
@@ -198,9 +198,9 @@ async def list_vector_databases():
     logging.debug("Databases being requested")
     try:
         blob_list = blob_service_client.get_container_client(container_name).list_blobs()
-        #databases = [blob.name for blob in blob_list if blob.name.endswith("_index")]
+        databases = [blob.name for blob in blob_list if blob.name.endswith("_index")]
         #logging.debug(f"Databases found: {databases}")
-        return blob_list
+        return databases
         #return {"message": "got databases but can't return them"}
 
     except Exception as e:
