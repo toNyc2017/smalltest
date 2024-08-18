@@ -6,7 +6,7 @@ from azure.storage.blob import BlobServiceClient
 # Retrieve the environment variable
 account_key = os.getenv('AZURE_STORAGE_ACCOUNT_KEY')
 
-dummy_string = "does this work?"
+dummy_string = "does this still work?"
 
 print(dummy_string)
 
