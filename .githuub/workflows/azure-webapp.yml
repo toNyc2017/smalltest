@@ -20,20 +20,35 @@ jobs:
         with:
           creds: '{"clientId":"d628f8fa-ac3e-4a7a-a7e8-bc386cb884d4","clientSecret":"AJf8Q~P0vKPxFBv6FqBjT6dLwojUnAkcjLNasbwg","subscriptionId":"5cb9d786-4789-4403-9c63-44493daf4bbd","tenantId":"8d7d67b6-2968-4815-9c54-4906afe68b5c"}'
 
-      - name: 'Set up Docker Buildx'
-        uses: docker/setup-buildx-action@v2
-
-      - name: 'Login to Azure Container Registry'
+      - name: 'Install dependencies'
         run: |
-          echo "79bUqSVf/tpgqQzykcbp+mdgEwEcB4jUxTT2loiTgk+ACRCcxQLu" | docker login yorkvilleregistry.azurecr.io -u yorkvilleregistry --password-stdin
-
-      - name: 'Build and push Docker image'
-        run: |
-          docker buildx build --platform linux/amd64 --no-cache -t yorkvilleregistry.azurecr.io/nginx-helloworld:latest -f Dockerfile_fastapi . --load
-          docker push yorkvilleregistry.azurecr.io/nginx-helloworld:latest
-
-      - name: 'Deploy to Azure Web App'
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: 'YorkvilleCharlie'
-          images: 'yorkvilleregistry.azurecr.io/nginx-helloworld:latest'
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+    
+          
+       - name: 'Configure Azure App Service Settings'
+            uses: azure/appservice-settings@v1
+            with:
+              app-name: 'YorkvilleCharlie'
+              app-settings-json: |
+                [
+                  {
+                    "name": "OPENAI_API_KEY",
+                    "value": "${{ secrets.OPENAI_API_KEY }}",
+                    "slotSetting": false
+                  },
+                  {
+                    "name": "AZURE_STORAGE_ACCOUNT_KEY",
+                    "value": "${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }}",
+                    "slotSetting": false
+                  }
+                ]
+              startup-command: 'python main.py'
+        
+        
+        - name: 'Deploy to Azure Web App'
+                uses: azure/webapps-deploy@v2
+                with:
+                  app-name: 'YorkvilleCharlie'
+                  publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+                  package: .
