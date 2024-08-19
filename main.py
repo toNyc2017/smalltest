@@ -133,7 +133,7 @@ container_name = "uploaded-files"
 
 container_client = blob_service_client.get_container_client(container_name)
 
-blobs_in_container = list_all_blobs_in_container(container_client)
+#blobs_in_container = list_all_blobs_in_container(container_client)
 
 
 
@@ -141,11 +141,11 @@ try:
     # Initialize the BlobServiceClient
     
     blob_list = blob_service_client.get_container_client(container_name).list_blobs()
-    container_client = blob_service_client.get_container_client(container_name)
+    #container_client = blob_service_client.get_container_client(container_name)
 
-    blobs_in_container = list_all_blobs_in_container(container_client)
+    #blobs_in_container = list_all_blobs_in_container(container_client)
 
-    #databases = [blob.name for blob in blob_list if blob.name.endswith("_index")]
+    databases = [blob.name for blob in blob_list if blob.name.endswith("_index")]
    
 except Exception as e:
     blob_list = None
