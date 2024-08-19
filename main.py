@@ -37,7 +37,7 @@ def list_all_blobs_in_container(container_client):
         print(f"Found blob: {blob.name}")
         all_blobs.append(blob.name)
     
-    pdb.set_trace()
+    #pdb.set_trace()
     return all_blobs
 
 
