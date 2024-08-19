@@ -64,7 +64,7 @@ container_name = "uploaded-files"
 
 container_client = blob_service_client.get_container_client(container_name)
 
-blobs_in_container = list_all_blobs_in_container(container_client)
+#blobs_in_container = list_all_blobs_in_container(container_client)
 
 # client = openai.OpenAI(
 #     api_key=oopenai.api_key,
