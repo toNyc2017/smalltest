@@ -31,8 +31,8 @@ jobs:
         uses: azure/login@v1
         with:
           #creds: '{"clientId":"d628f8fa-ac3e-4a7a-a7e8-bc386cb884d4","clientSecret":${{ secrets.AZURE_CREDENTIALS }},"subscriptionId":"5cb9d786-4789-4403-9c63-44493daf4bbd","tenantId":"8d7d67b6-2968-4815-9c54-4906afe68b5c"}'
-          #creds: '{"clientId":"d628f8fa-ac3e-4a7a-a7e8-bc386cb884d4","clientSecret":"AJf8Q~P0vKPxFBv6FqBjT6dLwojUnAkcjLNasbwg","subscriptionId":"5cb9d786-4789-4403-9c63-44493daf4bbd","tenantId":"8d7d67b6-2968-4815-9c54-4906afe68b5c"}'
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          creds: '{"clientId":"d628f8fa-ac3e-4a7a-a7e8-bc386cb884d4","clientSecret":"AJf8Q~P0vKPxFBv6FqBjT6dLwojUnAkcjLNasbwg","subscriptionId":"5cb9d786-4789-4403-9c63-44493daf4bbd","tenantId":"8d7d67b6-2968-4815-9c54-4906afe68b5c"}'
+          #creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: 'Set up Docker Compose'
         uses: docker/setup-buildx-action@v2
